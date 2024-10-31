@@ -1,6 +1,7 @@
 // src/pages/Expenses.js
 import React, { useEffect, useState, useCallback } from 'react';
 import { getExpenses, createExpense, updateExpense, deleteExpense } from '../api';
+import { useNavigate } from 'react-router-dom';
 
 const Expenses = ({ token, handleLogout }) => {
   const [expenses, setExpenses] = useState([]);
@@ -12,6 +13,7 @@ const Expenses = ({ token, handleLogout }) => {
   const [editingExpenseId, setEditingExpenseId] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const fetchExpenses = useCallback(async () => {
     setLoading(true);
@@ -22,9 +24,8 @@ const Expenses = ({ token, handleLogout }) => {
     } catch (error) {
       console.error(error);
       setError('Failed to fetch expenses.');
-      // Check for unauthorized access
       if (error.response && error.response.status === 401) {
-        handleLogout(); // Log out if the token is invalid
+        handleLogout();
       }
     } finally {
       setLoading(false);
@@ -33,25 +34,31 @@ const Expenses = ({ token, handleLogout }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const expenseData = {
+      title,
+      amount,
+      category: category || 'others', // Default to 'others' if category is empty
+      date,
+      notes,
+    };
+
     if (editingExpenseId) {
-      // Update expense
       try {
-        await updateExpense(editingExpenseId, { title, amount, category, date, notes }, token);
+        await updateExpense(editingExpenseId, expenseData, token);
         setEditingExpenseId(null);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to update expense:", error);
         setError('Failed to update expense.');
       }
     } else {
-      // Create new expense
       try {
-        await createExpense({ title, amount, category, date, notes }, token);
+        await createExpense(expenseData, token);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to create expense:", error);
         setError('Failed to create expense.');
       }
     }
-    // Reset fields and fetch updated expenses
+
     setTitle('');
     setAmount('');
     setCategory('');
@@ -78,6 +85,17 @@ const Expenses = ({ token, handleLogout }) => {
       setError('Failed to delete expense.');
     }
   };
+
+  const goToTasks = () => {
+    navigate('/tasks');
+  };
+
+  const goToHomepage = () => {
+    navigate('/');
+  };
+
+  // Calculate total expenses
+  const totalExpenses = expenses.reduce((total, expense) => total + Number(expense.amount), 0);
 
   useEffect(() => {
     fetchExpenses();
@@ -134,6 +152,11 @@ const Expenses = ({ token, handleLogout }) => {
               </li>
             ))}
           </ul>
+
+          <h3>Total Expenses: ${totalExpenses}</h3> {/* Display total expenses */}
+          
+          <button onClick={goToTasks}>Go to Tasks</button>
+          <button onClick={goToHomepage}>Go to Homepage</button>
         </>
       )}
     </div>

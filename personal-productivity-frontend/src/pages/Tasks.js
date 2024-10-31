@@ -1,7 +1,7 @@
 // src/pages/Tasks.js
 import React, { useEffect, useState, useCallback } from 'react';
 import { getTasks, createTask, updateTask, deleteTask } from '../api';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom';
 
 const Tasks = ({ token }) => {
   const [tasks, setTasks] = useState([]);
@@ -9,7 +9,7 @@ const Tasks = ({ token }) => {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const fetchTasks = useCallback(async () => {
     setLoading(true);
@@ -28,7 +28,6 @@ const Tasks = ({ token }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingTaskId) {
-      // Update task
       try {
         await updateTask(editingTaskId, { title }, token);
         setEditingTaskId(null);
@@ -37,7 +36,6 @@ const Tasks = ({ token }) => {
         setError('Failed to update task.');
       }
     } else {
-      // Create new task
       try {
         await createTask({ title }, token);
       } catch (error) {
@@ -64,9 +62,12 @@ const Tasks = ({ token }) => {
     }
   };
 
-  // Function to navigate to Expenses page
   const goToExpenses = () => {
     navigate('/expenses');
+  };
+
+  const goToHomepage = () => {
+    navigate('/');
   };
 
   useEffect(() => {
@@ -101,8 +102,8 @@ const Tasks = ({ token }) => {
             ))}
           </ul>
 
-          {/* Button to navigate to Expenses page */}
           <button onClick={goToExpenses}>Go to Expenses</button>
+          <button onClick={goToHomepage}>Go to Homepage</button>
         </>
       )}
     </div>
