@@ -62,14 +62,14 @@ const Tasks = ({ token }) => {
     }
   };
 
-  // New function to mark task as done
-  const handleMarkAsDone = async (id) => {
+  // Toggle task completion
+  const handleToggleComplete = async (id, isCompleted) => {
     try {
-      await updateTask(id, { isCompleted: true }, token);
+      await updateTask(id, { isCompleted: !isCompleted }, token);
       fetchTasks();
     } catch (error) {
       console.error(error);
-      setError('Failed to mark task as done.');
+      setError('Failed to toggle task completion.');
     }
   };
 
@@ -111,15 +111,15 @@ const Tasks = ({ token }) => {
                 </span>
                 <button onClick={() => handleEdit(task)}>Edit</button>
                 <button onClick={() => handleDelete(task._id)}>Delete</button>
-                {!task.isCompleted && (
-                  <button onClick={() => handleMarkAsDone(task._id)}>Mark as Done</button>
-                )}
+                <button onClick={() => handleToggleComplete(task._id, task.isCompleted)}>
+                  {task.isCompleted ? 'Undo' : 'Done'}
+                </button>
               </li>
             ))}
           </ul>
 
-          <button onClick={goToExpenses}>Go to Expenses</button>
-          <button onClick={goToHomepage}>Go to Homepage</button>
+          <button onClick={goToExpenses}>Expenses</button>
+          <button onClick={goToHomepage}>Homepage</button>
         </>
       )}
     </div>
