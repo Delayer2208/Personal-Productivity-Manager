@@ -62,6 +62,17 @@ const Tasks = ({ token }) => {
     }
   };
 
+  // New function to mark task as done
+  const handleMarkAsDone = async (id) => {
+    try {
+      await updateTask(id, { isCompleted: true }, token);
+      fetchTasks();
+    } catch (error) {
+      console.error(error);
+      setError('Failed to mark task as done.');
+    }
+  };
+
   const goToExpenses = () => {
     navigate('/expenses');
   };
@@ -95,9 +106,14 @@ const Tasks = ({ token }) => {
           <ul>
             {tasks.map((task) => (
               <li key={task._id}>
-                {task.title}
+                <span style={{ textDecoration: task.isCompleted ? 'line-through' : 'none' }}>
+                  {task.title}
+                </span>
                 <button onClick={() => handleEdit(task)}>Edit</button>
                 <button onClick={() => handleDelete(task._id)}>Delete</button>
+                {!task.isCompleted && (
+                  <button onClick={() => handleMarkAsDone(task._id)}>Mark as Done</button>
+                )}
               </li>
             ))}
           </ul>
