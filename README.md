@@ -11,6 +11,10 @@ A full-stack project for managing personal tasks and tracking expenses.
 - **Backend**: Node.js, Express, MongoDB
 - **Frontend**: React, Axios for API requests
 
+### Prerequisites
+1. Install **MongoDB**: Download and install MongoDB from [the official MongoDB website](https://www.mongodb.com/try/download/community).
+2. (Optional) Install **MongoDB Compass**: This is a GUI for MongoDB, which helps in visualizing and managing your database. Download it from [the official MongoDB Compass page](https://www.mongodb.com/products/compass).
+
 ## Installation
     Backend Setup
 1. Clone the repository:
@@ -33,3 +37,6 @@ A full-stack project for managing personal tasks and tracking expenses.
     
 5.   Start Frontend
     npm start
+
+
+   
