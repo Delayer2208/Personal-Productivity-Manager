@@ -13,19 +13,20 @@ A full-stack project for managing personal tasks and tracking expenses.
 
 ### Prerequisites
 1. Install **MongoDB**: Download and install MongoDB from [the official MongoDB website](https://www.mongodb.com/try/download/community).
-2. (Optional) Install **MongoDB Compass**: This is a GUI for MongoDB, which helps in visualizing and managing your database. Download it from [the official MongoDB Compass page](https://www.mongodb.com/products/compass).
+2. (Optional) Install **MongoDB Compass**: This is a GUI for MongoDB, which helps in visualizing and managing your database.
 
 ## Installation
-    Backend Setup
-1. Clone the repository:
+1.   Backend Setup
+   Clone the repository:
    git clone https://github.com/yourusername/your-repo-name.git
   Navigate to backend direcotry
   cd backend
-  npm install-installs dependencies
+  npm install //installs dependencies
+  npm install dotenv //dotenv package to load environment variables
 
 2. Create .env
    MONGO_URI=mongodb://localhost:27017/your-db-name
-   JWT_SECRET=YourSecretKey
+   JWT_SECRET=YourSecretKey //Seperate lines
    
 3.  Start the server
    node server.js
@@ -33,10 +34,9 @@ A full-stack project for managing personal tasks and tracking expenses.
 4.  Frontend Setup
    Navigate to frontend directory
    cd frontend
-   npm install-installs dependencies
+   npm install //installs dependencies
+   npm install axios //to fetch tasks from a backend API
+
     
 5.   Start Frontend
     npm start
-
-
-   
