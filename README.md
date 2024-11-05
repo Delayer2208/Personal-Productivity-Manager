@@ -18,7 +18,7 @@ A full-stack project for managing personal tasks and tracking expenses.
 ## Installation
 1.   Backend Setup
    Clone the repository:
-   git clone https://github.com/yourusername/your-repo-name.git
+   git clone https://github.com/Delayer2208/Personal-Productivity-Manager.git
   Navigate to backend direcotry
   cd backend
   npm install //installs dependencies
@@ -40,3 +40,9 @@ A full-stack project for managing personal tasks and tracking expenses.
     
 5.   Start Frontend
     npm start
+
+## Usage
+1. Register: Go to /register to create a new account.
+2. Login: Log in to access the tasks and expense manager.
+3 Task Management: Add, edit, delete, and mark tasks as completed.
+  Expense Tracking: Add and view expenses by name,amount,catogory and date
