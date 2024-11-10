@@ -56,6 +56,6 @@ cd frontend
 
 2. Login: Log in to access the tasks and expense manager.
 
-3 Task Management: Add, edit, delete, and mark tasks as completed.
+3. Task Management: Add, edit, delete, and mark tasks as completed.
   
-  Expense Tracking: Add and view expenses by name,amount,catogory and date
+   Expense Tracking: Add and view expenses by name,amount,catogory and date
