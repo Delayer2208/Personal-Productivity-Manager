@@ -29,13 +29,15 @@ A full-stack project for managing personal tasks and tracking expenses.
   npm install dotenv //dotenv package to load environment variables
 
 2. Create .env
+
    MONGO_URI=mongodb://localhost:27017/your-db-name
+
    JWT_SECRET=YourSecretKey //Seperate lines
    
-3.  Start the server
+4.  Start the server
    node server.js
 
-4.  Frontend Setup
+5.  Frontend Setup
    Navigate to frontend directory
 
 cd frontend
