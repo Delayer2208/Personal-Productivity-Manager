@@ -19,9 +19,13 @@ A full-stack project for managing personal tasks and tracking expenses.
 1.   Backend Setup
    Clone the repository:
    git clone https://github.com/Delayer2208/Personal-Productivity-Manager.git
+ 
   Navigate to backend direcotry
+  
   cd backend
+  
   npm install //installs dependencies
+  
   npm install dotenv //dotenv package to load environment variables
 
 2. Create .env
@@ -33,12 +37,16 @@ A full-stack project for managing personal tasks and tracking expenses.
 
 4.  Frontend Setup
    Navigate to frontend directory
-   cd frontend
+
+cd frontend
+   
    npm install //installs dependencies
+   
    npm install axios //to fetch tasks from a backend API
+   
    npm install bootstrap //Bootstrap is used to provide responsive design and basic styling for the frontend
     
-5.   Start Frontend
+6.   Start Frontend
     npm start
 
 ## Usage
