@@ -36,7 +36,7 @@ A full-stack project for managing personal tasks and tracking expenses.
    cd frontend
    npm install //installs dependencies
    npm install axios //to fetch tasks from a backend API
-
+   npm install bootstrap //Bootstrap is used to provide responsive design and basic styling for the frontend
     
 5.   Start Frontend
     npm start
