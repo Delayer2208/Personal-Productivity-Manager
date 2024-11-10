@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { getExpenses, createExpense, updateExpense, deleteExpense } from '../api';
 import { useNavigate } from 'react-router-dom';
 
+// Expense management page: view, add, edit, delete expenses
 const Expenses = ({ token, handleLogout }) => {
   const [expenses, setExpenses] = useState([]);
   const [title, setTitle] = useState('');
@@ -15,6 +16,7 @@ const Expenses = ({ token, handleLogout }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Fetches expenses from the API and handles errors
   const fetchExpenses = useCallback(async () => {
     setLoading(true);
     try {
@@ -24,6 +26,8 @@ const Expenses = ({ token, handleLogout }) => {
     } catch (error) {
       console.error(error);
       setError('Failed to fetch expenses.');
+      
+      // Logout if token has expired or is invalid
       if (error.response && error.response.status === 401) {
         handleLogout();
       }
@@ -32,6 +36,7 @@ const Expenses = ({ token, handleLogout }) => {
     }
   }, [token, handleLogout]);
 
+  // Creates or updates an expense based on editingExpenseId
   const handleSubmit = async (e) => {
     e.preventDefault();
     const expenseData = {
@@ -59,6 +64,7 @@ const Expenses = ({ token, handleLogout }) => {
       }
     }
 
+    // Reset fields and refresh expenses
     setTitle('');
     setAmount('');
     setCategory('');
@@ -67,6 +73,7 @@ const Expenses = ({ token, handleLogout }) => {
     fetchExpenses();
   };
 
+  // Sets form fields for editing an expense
   const handleEdit = (expense) => {
     setTitle(expense.title);
     setAmount(expense.amount);
@@ -76,6 +83,7 @@ const Expenses = ({ token, handleLogout }) => {
     setEditingExpenseId(expense._id);
   };
 
+   // Deletes the selected expense and updates the list
   const handleDelete = async (id) => {
     try {
       await deleteExpense(id, token);
@@ -86,10 +94,12 @@ const Expenses = ({ token, handleLogout }) => {
     }
   };
 
+  // Navigate to Tasks page
   const goToTasks = () => {
     navigate('/tasks');
   };
 
+  // Navigate to Homepage
   const goToHomepage = () => {
     navigate('/');
   };
@@ -97,6 +107,7 @@ const Expenses = ({ token, handleLogout }) => {
   // Calculate total expenses
   const totalExpenses = expenses.reduce((total, expense) => total + Number(expense.amount), 0);
 
+  // Load expenses on component mount
   useEffect(() => {
     fetchExpenses();
   }, [fetchExpenses]);
@@ -155,8 +166,8 @@ const Expenses = ({ token, handleLogout }) => {
 
           <h3>Total Expenses: ${totalExpenses}</h3> {/* Display total expenses */}
           
-          <button onClick={goToTasks}>Go to Tasks</button>
-          <button onClick={goToHomepage}>Go to Homepage</button>
+          <button onClick={goToTasks}>Tasks</button>
+          <button onClick={goToHomepage}>Homepage</button>
         </>
       )}
     </div>

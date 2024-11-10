@@ -11,6 +11,7 @@ const Tasks = ({ token }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Fetch tasks from the backend
   const fetchTasks = useCallback(async () => {
     setLoading(true);
     try {
@@ -25,12 +26,13 @@ const Tasks = ({ token }) => {
     }
   }, [token]);
 
+   // Handle task creation and updates
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingTaskId) {
       try {
         await updateTask(editingTaskId, { title }, token);
-        setEditingTaskId(null);
+        setEditingTaskId(null); // Reset editing state after update
       } catch (error) {
         console.error(error);
         setError('Failed to update task.');
@@ -43,15 +45,17 @@ const Tasks = ({ token }) => {
         setError('Failed to create task.');
       }
     }
-    setTitle('');
-    fetchTasks();
+    setTitle(''); // Reset title input
+    fetchTasks(); // Refresh tasks list
   };
 
+   // Prepare task for editing
   const handleEdit = (task) => {
     setTitle(task.title);
     setEditingTaskId(task._id);
   };
 
+  // Delete a task
   const handleDelete = async (id) => {
     try {
       await deleteTask(id, token);
@@ -73,6 +77,7 @@ const Tasks = ({ token }) => {
     }
   };
 
+  // Navigate to other pages
   const goToExpenses = () => {
     navigate('/expenses');
   };

@@ -64,12 +64,13 @@ router.patch('/:id', async (req, res) => {
 // Delete an expense
 router.delete('/:id', async (req, res) => {
   try {
+     // Delete the expense, ensuring it's the user's expense (userId check)
     const deletedExpense = await Expense.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
     if (!deletedExpense) return res.status(404).json({ message: 'Expense not found' });
-    res.json({ message: 'Expense deleted' });
+    res.json({ message: 'Expense deleted' }); // Return success message
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-module.exports = router;
+module.exports = router; // Export the expense routes

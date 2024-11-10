@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace with your frontend URL if it's different
+  origin: 'http://localhost:3000', // Accept requests from a specific frontend URL
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 })); // Allow CORS for specific methods
 
@@ -19,9 +19,9 @@ app.use(express.json()); // Middleware to parse JSON requests
 const PORT = process.env.PORT || 5000;
 
 // Register routes
-app.use('/api/tasks', taskRoutes);
-app.use('/api/expenses', expenseRoutes);
-app.use('/api/auth', authRoutes); // Ensure this line is present
+app.use('/api/tasks', taskRoutes); // registers the task routes
+app.use('/api/expenses', expenseRoutes); // registers the expense routes
+app.use('/api/auth', authRoutes); // registers the authentication routes under the /api/auth endpoint
 
 app.get('/', (req, res) => {
   res.send('Server is running...');

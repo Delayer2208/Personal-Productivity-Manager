@@ -11,6 +11,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      
       // Update the registration URL to match the backend
       const response = await axios.post('http://localhost:5000/api/auth/register', {
         email,

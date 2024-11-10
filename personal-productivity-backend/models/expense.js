@@ -14,5 +14,6 @@ const expenseSchema = new mongoose.Schema({
   notes: { type: String } // Optional notes
 });
 
+// Create and export the Expense model based on the expense schema
 const Expense = mongoose.model('Expense', expenseSchema);
 module.exports = Expense;

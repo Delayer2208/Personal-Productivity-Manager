@@ -6,9 +6,10 @@ import Register from './pages/Register';
 import Tasks from './pages/Tasks';
 import Expenses from './pages/Expenses';
 import Welcome from './pages/Welcome';
-import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute
+import PrivateRoute from './components/PrivateRoute'; // Import PrivateRoute for protected routes
 
 const App = () => {
+  // State to manage authentication token, initially set from local storage
   const [token, setToken] = useState(localStorage.getItem('token')); // Get token from local storage
 
   // Update token in local storage whenever it changes
@@ -21,7 +22,7 @@ const App = () => {
   }, [token]);
 
   const handleLogout = () => {
-    setToken(null); // Clear the token from state
+    setToken(null);  // Handle user logout by clearing the token
   };
 
   return (
