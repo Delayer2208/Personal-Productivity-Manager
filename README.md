@@ -32,7 +32,7 @@ A full-stack project for managing personal tasks and tracking expenses.
 
    MONGO_URI=mongodb://localhost:27017/your-db-name
 
-   JWT_SECRET=YourSecretKey //Seperate lines
+   JWT_SECRET=YourSecretKey                          //Seperate lines
    
 4.  Start the server
    node server.js
