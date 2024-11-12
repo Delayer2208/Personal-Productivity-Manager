@@ -28,7 +28,7 @@ A full-stack project for managing personal tasks and tracking expenses.
   
   npm install dotenv //dotenv package to load environment variables
 
-2. Create .env
+2. Create .env (Batch file provided set up database.bat)
 
    MONGO_URI=mongodb://localhost:27017/your-db-name
 
