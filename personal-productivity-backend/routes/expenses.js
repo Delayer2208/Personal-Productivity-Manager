@@ -6,70 +6,100 @@ const router = express.Router();
 // Apply auth middleware to all routes
 router.use(authMiddleware);
 
+// Utility function for handling error responses
+const sendErrorResponse = (res, statusCode, message) => {
+  res.status(statusCode).json({ message });
+};
+
 // Create a new expense
 router.post('/', async (req, res) => {
-  console.log(req.body); // Log the incoming request body
-
-  // Destructure fields from request body
   const { title, amount, category, date, notes } = req.body;
 
   // Validate required fields
   if (!title || !amount) {
-    return res.status(400).json({ message: 'Title and amount are required.' });
+    return sendErrorResponse(res, 400, 'Title and amount are required.');
   }
 
-  // Use the userId from the request (from the middleware)
-  const expense = new Expense({ userId: req.user.id, title, amount, category, date, notes });
+  // Parse the amount and validate it
+  const parsedAmount = parseFloat(amount);
+  if (isNaN(parsedAmount)) {
+    return sendErrorResponse(res, 400, 'Amount must be a number.');
+  }
+
+  // Handle date: parse it, default to current date if empty
+  const parsedDate = date ? new Date(date) : Date.now();
+  if (isNaN(parsedDate)) {
+    return sendErrorResponse(res, 400, 'Invalid date format.');
+  }
+
+  // Create a new expense object
+  const expense = new Expense({
+    userId: req.user.id,
+    title,
+    amount: parsedAmount, // Use parsed amount
+    category: category || 'others', // Default to 'others' if no category
+    date: parsedDate,
+    notes: notes || '', // Default to empty string if no notes
+  });
 
   try {
+    // Save the expense to the database
     const savedExpense = await expense.save();
     res.status(201).json(savedExpense);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    sendErrorResponse(res, 400, err.message);
   }
 });
 
-// Get all expenses
+// Get all expenses for the authenticated
 router.get('/', async (req, res) => {
+  const { page = 1, limit = 20 } = req.query;
+
   try {
-    const expenses = await Expense.find({ userId: req.user.id }); // Only fetch expenses for the authenticated user
+    const expenses = await Expense.find({ userId: req.user.id })
+      .skip((page - 1) * limit) // Skip expenses based on page number
+      .limit(Number(limit)); // Limit the number of expenses per page
+
     res.json(expenses);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendErrorResponse(res, 500, err.message);
   }
 });
 
-// Get an expense by ID
+// Get a single expense by ID
 router.get('/:id', async (req, res) => {
   try {
-    const expense = await Expense.findOne({ _id: req.params.id, userId: req.user.id }); // Ensure the user owns the expense
-    if (!expense) return res.status(404).json({ message: 'Expense not found' });
+    const expense = await Expense.findOne({ _id: req.params.id, userId: req.user.id });
+    if (!expense) return sendErrorResponse(res, 404, 'Expense not found');
     res.json(expense);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendErrorResponse(res, 500, err.message);
   }
 });
 
-// Update an expense
+// Update an expense by ID
 router.patch('/:id', async (req, res) => {
   try {
-    const updatedExpense = await Expense.findOneAndUpdate({ _id: req.params.id, userId: req.user.id }, req.body, { new: true });
-    if (!updatedExpense) return res.status(404).json({ message: 'Expense not found' });
+    const updatedExpense = await Expense.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      req.body,
+      { new: true } // Return the updated document
+    );
+    if (!updatedExpense) return sendErrorResponse(res, 404, 'Expense not found');
     res.json(updatedExpense);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    sendErrorResponse(res, 400, err.message);
   }
 });
 
-// Delete an expense
+// Delete an expense by ID
 router.delete('/:id', async (req, res) => {
   try {
-     // Delete the expense, ensuring it's the user's expense (userId check)
     const deletedExpense = await Expense.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
-    if (!deletedExpense) return res.status(404).json({ message: 'Expense not found' });
-    res.json({ message: 'Expense deleted' }); // Return success message
+    if (!deletedExpense) return sendErrorResponse(res, 404, 'Expense not found');
+    res.json({ message: 'Expense deleted' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    sendErrorResponse(res, 500, err.message);
   }
 });
 
