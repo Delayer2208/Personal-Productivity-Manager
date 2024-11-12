@@ -1,4 +1,3 @@
-// src/pages/Expenses.js
 import React, { useEffect, useState, useCallback } from 'react';
 import { getExpenses, createExpense, updateExpense, deleteExpense } from '../api';
 import { useNavigate } from 'react-router-dom';
@@ -83,7 +82,7 @@ const Expenses = ({ token, handleLogout }) => {
     setEditingExpenseId(expense._id);
   };
 
-   // Deletes the selected expense and updates the list
+  // Deletes the selected expense and updates the list
   const handleDelete = async (id) => {
     try {
       await deleteExpense(id, token);
@@ -113,20 +112,23 @@ const Expenses = ({ token, handleLogout }) => {
   }, [fetchExpenses]);
 
   return (
-    <div>
-      <h2>Your Expenses</h2>
-      {error && <p className="error">{error}</p>}
+    <div className="container my-4">
+      <h2 className="text-center mb-4">Your Expenses</h2>
+      {error && <p className="text-danger">{error}</p>}
       {loading ? (
         <p>Loading expenses...</p>
       ) : (
         <>
-          <form onSubmit={handleSubmit}>
+          <h3 className="text-center mb-4">Total Expenses: ${totalExpenses}</h3> {/* Display total expenses */}
+
+          <form onSubmit={handleSubmit} className="mb-4">
             <input
               type="text"
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
+              className="form-control mb-2"
             />
             <input
               type="number"
@@ -134,40 +136,61 @@ const Expenses = ({ token, handleLogout }) => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
+              className="form-control mb-2"
             />
             <input
               type="text"
               placeholder="Category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
+              className="form-control mb-2"
             />
             <input
               type="date"
               placeholder="Date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              className="form-control mb-2"
             />
             <textarea
               placeholder="Notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
+              className="form-control mb-2"
             />
-            <button type="submit">{editingExpenseId ? 'Update Expense' : 'Add Expense'}</button>
+            <button type="submit" className="btn btn-primary w-100">
+              {editingExpenseId ? 'Update Expense' : 'Add Expense'}
+            </button>
           </form>
-          <ul>
+
+          <ul className="list-group mb-4">
             {expenses.map((expense) => (
-              <li key={expense._id}>
-                <strong>{expense.title}</strong> - ${expense.amount} - {expense.category}
-                <button onClick={() => handleEdit(expense)}>Edit</button>
-                <button onClick={() => handleDelete(expense._id)}>Delete</button>
+              <li key={expense._id} className="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{expense.title}</strong> - ${expense.amount} - {expense.category}
+                </div>
+                <div>
+                  <button
+                    onClick={() => handleEdit(expense)}
+                    className="btn btn-warning btn-sm me-2"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(expense._id)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
 
-          <h3>Total Expenses: ${totalExpenses}</h3> {/* Display total expenses */}
-          
-          <button onClick={goToTasks}>Tasks</button>
-          <button onClick={goToHomepage}>Homepage</button>
+          <div className="mt-4">
+            <button onClick={goToTasks} className="btn btn-secondary me-2">Go to Tasks</button>
+            <button onClick={goToHomepage} className="btn btn-secondary">Go to Homepage</button>
+          </div>
         </>
       )}
     </div>

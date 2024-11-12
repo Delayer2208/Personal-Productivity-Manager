@@ -11,7 +11,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      
       // Update the registration URL to match the backend
       const response = await axios.post('http://localhost:5000/api/auth/register', {
         email,
@@ -26,27 +25,35 @@ const Register = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h2>Register</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br />
-        <button type="submit">Register</button>
+    <div className="container my-4">
+      <h2 className="text-center mb-4">Register</h2>
+      {errorMessage && <p className="text-danger text-center">{errorMessage}</p>}
+      <form onSubmit={handleSubmit} className="mx-auto" style={{ maxWidth: '400px' }}>
+        <div className="mb-3">
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="form-control"
+          />
+        </div>
+        <div className="d-grid gap-2">
+          <button type="submit" className="btn btn-primary">
+            Register
+          </button>
+        </div>
       </form>
     </div>
   );
